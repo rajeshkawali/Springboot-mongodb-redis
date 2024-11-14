@@ -1,0 +1,15 @@
+spring.application.name: Springboot-mongodb-radis-jwt
+
+# MongoDB configuration
+spring.data.mongodb.uri: mongodb://localhost:27017/user_collection
+
+# Redis Configuration
+spring.redis.cache.host: localhost
+spring.redis.cache.port: 6379
+spring.redis.cache.timeout: 60000
+#spring.redis.cache.password: yourpassword
+
+# Cache Configuration
+spring.cache.type: redis
+spring.cache.redis.time-to-live: 30000
+spring.cache.redis.cache-null-values: false
