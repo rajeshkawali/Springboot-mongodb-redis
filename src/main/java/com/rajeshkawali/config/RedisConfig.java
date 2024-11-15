@@ -3,9 +3,12 @@ package com.rajeshkawali.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
 /**
  *
  * @author Rajesh_Kawali
@@ -14,43 +17,36 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 @Configuration
 public class RedisConfig {
 
-    @Value("${spring.redis.cache.host}")
+    @Value("${spring.data.redis.host}")
     private String redisHost;
 
-    @Value("${spring.redis.cache.port}")
+    @Value("${spring.data.redis.port}")
     private int redisPort;
 
-    @Value("${spring.redis.cache.timeout}")
-    private int redisTimeout;
-
-    @Value("${spring.redis.cache.password}")
+    @Value("${spring.data.redis.password}")
     private String redisPassword;
 
+    @Value("${spring.data.redis.database}")
+    private int redisDatabase;
+
+    @Value("${spring.data.redis.timeout}")
+    private int timeout;
+
     @Bean
-    JedisConnectionFactory jedisConnectionFactory() {
-        JedisConnectionFactory jedisConFactory = new JedisConnectionFactory();
-        jedisConFactory.setHostName(redisHost);
-        jedisConFactory.setPort(redisPort);
-        // jedisConFactory.setTimeout(redisTimeout);
-        // jedisConFactory.setPassword(redisPassword);
-        return jedisConFactory;
+    public RedisConnectionFactory redisConnectionFactory() {
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisHost, redisPort);
+        //factory.setPassword(redisPassword);
+        //factory.setDatabase(redisDatabase);
+        factory.setTimeout(timeout);
+        return factory;
     }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(jedisConnectionFactory());
-        template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer()); // JSON serialization
+        template.setConnectionFactory(redisConnectionFactory());
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return template;
     }
-    /*
-    @Bean
-    public RedisTemplate redisTemplate(){
-        RedisTemplate redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(jedisConnectionFactory());
-        redisTemplate.setKeySerializer(new StringRedisSerializer()); // String serialization
-        redisTemplate.setValueSerializer(new StringRedisSerializer()); // String serialization
-        return redisTemplate;
-    }
-     */
 }

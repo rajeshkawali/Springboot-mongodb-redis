@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserDto {
 
 	@JsonProperty("id")
-	private Long id;
+	private String id;
 
 	@JsonProperty("firstName")
 	private String firstName;
