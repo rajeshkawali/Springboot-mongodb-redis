@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
     @Override
     //@CachePut(value = "users", key = "#user.id")
     //@CacheEvict(cacheNames = "users", key = "#user.id")
-    @CacheEvict(cacheNames = "users", allEntries = true)
+    @CacheEvict(cacheNames = "users", allEntries = true, key = "#id")
     public UserDto updateUser(String id, UserDto userDto) {
         try {
             // Fetch the existing user from the database
