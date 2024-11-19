@@ -117,7 +117,9 @@ public class UserServiceImpl implements UserService {
      * @CachePut - Updates the cache for "users" with the new data for this user
      */
     @Override
-    @CachePut(value = "users", key = "#user.id")
+    //@CachePut(value = "users", key = "#user.id")
+    //@CacheEvict(cacheNames = "users", key = "#user.id")
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public UserDto updateUser(String id, UserDto userDto) {
         try {
             // Fetch the existing user from the database

@@ -24,6 +24,19 @@ This application contains spring boot, mongodb, redis cache.
 > **GET**       ```/v1/universities/{country}```	Get all universities by country
 
 
+# Example json
+
+``` 
+{
+        "id": "673776f73928c359d9492aec",
+        "firstName": "Laksh",
+        "lastName": "Kawali",
+        "age": 3,
+        "gender": "Male",
+        "role": "Admin"
+}
+```
+
 # Installing Redis on Windows
 
 ### Install Redis Using Windows Subsystem for Linux (WSL)

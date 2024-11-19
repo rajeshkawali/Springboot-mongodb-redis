@@ -24,6 +24,10 @@ public class RedisUtil {
     public <T> T getFromCache(String key, Class<T> entity) {
         try {
             Object o = redisTemplate.opsForValue().get(key);
+            if (o == null) {
+                log.warn("Cache miss for key: {}", key);
+                return null;
+            }
             objectMapper = new ObjectMapper();
             return objectMapper.readValue(o.toString(), entity);
         } catch (Exception e) {
